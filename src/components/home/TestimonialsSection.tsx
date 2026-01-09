@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { Star, Quote } from "lucide-react";
 
 const testimonials = [
@@ -27,12 +28,41 @@ const testimonials = [
   },
 ];
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+    },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 40, rotateX: 10 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    rotateX: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number],
+    },
+  },
+};
+
 const TestimonialsSection = () => {
   return (
     <section className="py-24 bg-muted">
       <div className="container mx-auto px-4">
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
+        <motion.div 
+          className="text-center max-w-2xl mx-auto mb-16"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
           <span className="inline-block px-4 py-1.5 rounded-full bg-accent/20 text-accent text-sm font-semibold mb-4">
             Témoignages
           </span>
@@ -42,25 +72,44 @@ const TestimonialsSection = () => {
           <p className="text-muted-foreground">
             Découvrez ce que nos clients disent de nos services et de notre engagement envers l'excellence.
           </p>
-        </div>
+        </motion.div>
 
         {/* Testimonials Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <div
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+        >
+          {testimonials.map((testimonial) => (
+            <motion.div
               key={testimonial.id}
-              className="bg-card rounded-2xl p-8 shadow-card hover:shadow-card-hover transition-all duration-300 animate-fade-in"
-              style={{ animationDelay: `${index * 0.1}s` }}
+              className="bg-card rounded-2xl p-8 shadow-card hover:shadow-card-hover transition-all duration-300"
+              variants={cardVariants}
+              whileHover={{ y: -5, scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
               {/* Quote Icon */}
-              <div className="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center mb-6">
+              <motion.div 
+                className="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center mb-6"
+                whileHover={{ rotate: 10 }}
+              >
                 <Quote className="w-6 h-6 text-secondary" />
-              </div>
+              </motion.div>
 
               {/* Rating */}
               <div className="flex gap-1 mb-4">
                 {Array.from({ length: testimonial.rating }).map((_, i) => (
-                  <Star key={i} className="w-5 h-5 fill-accent text-accent" />
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, scale: 0 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1, type: "spring", stiffness: 500 }}
+                  >
+                    <Star className="w-5 h-5 fill-accent text-accent" />
+                  </motion.div>
                 ))}
               </div>
 
@@ -76,9 +125,9 @@ const TestimonialsSection = () => {
                   {testimonial.role}, {testimonial.company}
                 </p>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

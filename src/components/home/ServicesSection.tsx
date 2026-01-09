@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import { Shield, Sparkles, Wrench, HeartPulse, FileCheck, ArrowRight } from "lucide-react";
 import gardiennageImg from "@/assets/services/gardiennage.jpg";
 import nettoyageImg from "@/assets/services/nettoyage.jpg";
@@ -49,12 +50,40 @@ const services = [
   },
 ];
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number],
+    },
+  },
+};
+
 const ServicesSection = () => {
   return (
     <section className="py-24 bg-background" id="services">
       <div className="container mx-auto px-4">
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
+        <motion.div 
+          className="text-center max-w-2xl mx-auto mb-16"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
           <span className="inline-block px-4 py-1.5 rounded-full bg-secondary/10 text-secondary text-sm font-semibold mb-4">
             Nos Services
           </span>
@@ -64,48 +93,65 @@ const ServicesSection = () => {
           <p className="text-muted-foreground">
             Découvrez notre gamme de services professionnels conçus pour répondre à tous vos besoins en matière de sécurité, propreté et maintenance.
           </p>
-        </div>
+        </motion.div>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service, index) => (
-            <Link
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+        >
+          {services.map((service) => (
+            <motion.div
               key={service.id}
-              to={`/services#${service.id}`}
-              className="group relative bg-card rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-500 animate-fade-in"
-              style={{ animationDelay: `${index * 0.1}s` }}
+              variants={cardVariants}
+              whileHover={{ y: -8 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
-              {/* Image */}
-              <div className="relative h-52 overflow-hidden">
-                <img
-                  src={service.image}
-                  alt={service.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
-                
-                {/* Icon Badge */}
-                <div className={`absolute bottom-4 left-4 w-12 h-12 ${service.color} rounded-xl flex items-center justify-center shadow-lg`}>
-                  <service.icon className="w-6 h-6 text-primary-foreground" />
+              <Link
+                to={`/services#${service.id}`}
+                className="group block relative bg-card rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-500"
+              >
+                {/* Image */}
+                <div className="relative h-52 overflow-hidden">
+                  <motion.img
+                    src={service.image}
+                    alt={service.title}
+                    className="w-full h-full object-cover"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ duration: 0.5 }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
+                  
+                  {/* Icon Badge */}
+                  <motion.div 
+                    className={`absolute bottom-4 left-4 w-12 h-12 ${service.color} rounded-xl flex items-center justify-center shadow-lg`}
+                    whileHover={{ rotate: 10, scale: 1.1 }}
+                    transition={{ type: "spring", stiffness: 400 }}
+                  >
+                    <service.icon className="w-6 h-6 text-primary-foreground" />
+                  </motion.div>
                 </div>
-              </div>
 
-              {/* Content */}
-              <div className="p-6">
-                <h3 className="font-display text-xl font-semibold text-foreground mb-2 group-hover:text-secondary transition-colors">
-                  {service.title}
-                </h3>
-                <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-                  {service.description}
-                </p>
-                <div className="flex items-center gap-2 text-secondary font-medium text-sm">
-                  En savoir plus
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                {/* Content */}
+                <div className="p-6">
+                  <h3 className="font-display text-xl font-semibold text-foreground mb-2 group-hover:text-secondary transition-colors">
+                    {service.title}
+                  </h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed mb-4">
+                    {service.description}
+                  </p>
+                  <div className="flex items-center gap-2 text-secondary font-medium text-sm">
+                    En savoir plus
+                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Shield, Sparkles, CheckCircle } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
@@ -18,58 +19,109 @@ const HeroSection = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-3xl">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-foreground/10 backdrop-blur-sm border border-primary-foreground/20 mb-8 animate-fade-in">
+          <motion.div 
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-foreground/10 backdrop-blur-sm border border-primary-foreground/20 mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
             <Shield className="w-4 h-4 text-accent" />
             <span className="text-sm font-medium text-primary-foreground">
               Votre partenaire de confiance depuis 2010
             </span>
-          </div>
+          </motion.div>
 
           {/* Heading */}
-          <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight mb-6 animate-fade-in" style={{ animationDelay: "0.1s" }}>
+          <motion.h1 
+            className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight mb-6"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1 }}
+          >
             Sécurité, Propreté &{" "}
-            <span className="text-accent">Excellence</span> pour vos Espaces
-          </h1>
+            <motion.span 
+              className="text-accent"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+            >
+              Excellence
+            </motion.span>{" "}
+            pour vos Espaces
+          </motion.h1>
 
           {/* Description */}
-          <p className="text-lg md:text-xl text-primary-foreground/80 mb-8 leading-relaxed animate-fade-in" style={{ animationDelay: "0.2s" }}>
+          <motion.p 
+            className="text-lg md:text-xl text-primary-foreground/80 mb-8 leading-relaxed"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+          >
             LYNS INFO vous accompagne avec des services professionnels de gardiennage, nettoyage, entretien et hygiène adaptés à vos besoins.
-          </p>
+          </motion.p>
 
           {/* Features */}
-          <div className="flex flex-wrap gap-6 mb-10 animate-fade-in" style={{ animationDelay: "0.3s" }}>
-            {["Disponibilité 24/7", "Équipes qualifiées", "Devis gratuit"].map((feature) => (
-              <div key={feature} className="flex items-center gap-2">
+          <motion.div 
+            className="flex flex-wrap gap-6 mb-10"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+          >
+            {["Disponibilité 24/7", "Équipes qualifiées", "Devis gratuit"].map((feature, index) => (
+              <motion.div 
+                key={feature} 
+                className="flex items-center gap-2"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
+              >
                 <CheckCircle className="w-5 h-5 text-accent" />
                 <span className="text-primary-foreground/90 font-medium">{feature}</span>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-4 animate-fade-in" style={{ animationDelay: "0.4s" }}>
-            <Button size="lg" variant="hero" asChild>
-              <Link to="/contact">
-                Demander un Devis
-                <ArrowRight className="w-5 h-5" />
-              </Link>
-            </Button>
-            <Button size="lg" variant="heroOutline" asChild>
-              <Link to="/services">
-                <Sparkles className="w-5 h-5" />
-                Découvrir nos Services
-              </Link>
-            </Button>
-          </div>
+          <motion.div 
+            className="flex flex-col sm:flex-row gap-4"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.5 }}
+          >
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
+              <Button size="lg" variant="hero" asChild>
+                <Link to="/contact">
+                  Demander un Devis
+                  <ArrowRight className="w-5 h-5" />
+                </Link>
+              </Button>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
+              <Button size="lg" variant="heroOutline" asChild>
+                <Link to="/services">
+                  <Sparkles className="w-5 h-5" />
+                  Découvrir nos Services
+                </Link>
+              </Button>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-float">
+      <motion.div 
+        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        animate={{ y: [0, 10, 0] }}
+        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+      >
         <div className="w-6 h-10 rounded-full border-2 border-primary-foreground/30 flex justify-center pt-2">
-          <div className="w-1 h-2 bg-primary-foreground/50 rounded-full animate-bounce" />
+          <motion.div 
+            className="w-1 h-2 bg-primary-foreground/50 rounded-full"
+            animate={{ y: [0, 8, 0], opacity: [1, 0.3, 1] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          />
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };
