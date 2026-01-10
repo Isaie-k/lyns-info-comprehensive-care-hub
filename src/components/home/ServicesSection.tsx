@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Shield, Sparkles, Wrench, HeartPulse, FileCheck, ArrowRight } from "lucide-react";
+import { Shield, Sparkles, Wrench, HeartPulse, Calendar, ArrowRight } from "lucide-react";
 import gardiennageImg from "@/assets/services/gardiennage.jpg";
 import nettoyageImg from "@/assets/services/nettoyage.jpg";
 import entretienImg from "@/assets/services/entretien.jpg";
@@ -42,9 +42,9 @@ const services = [
   },
   {
     id: "protocoles",
-    title: "Protocoles",
-    description: "Mise en place de protocoles de sécurité et d'hygiène conformes aux normes en vigueur.",
-    icon: FileCheck,
+    title: "Protocoles Événementiels",
+    description: "Organisation et gestion complète de vos événements : sécurité, accueil, logistique et coordination.",
+    icon: Calendar,
     image: protocolesImg,
     color: "bg-primary",
   },
