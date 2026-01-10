@@ -73,10 +73,10 @@ const Footer = () => {
             <ul className="space-y-3">
               {[
                 { label: "Accueil", href: "/" },
+                { label: "Galerie", href: "/gallery" },
                 { label: "À Propos", href: "/about" },
                 { label: "Actualités", href: "/blog" },
                 { label: "Contact", href: "/contact" },
-                { label: "Demander un Devis", href: "/contact" },
               ].map((item) => (
                 <li key={item.label}>
                   <Link
